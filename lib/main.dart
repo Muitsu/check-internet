@@ -1,4 +1,3 @@
-import 'dart:developer' as developer;
 import 'package:check_internet/check_internet.dart';
 import 'package:flutter/material.dart';
 
@@ -44,21 +43,58 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const SecondPage()));
+                },
+                child: const Text('Next Page')),
             CheckInternet(
               hasInternet: const Text('Has internet'),
               onHasInternet: () {
                 //Do Something
-                developer.log('Yippie');
+                var snackBar = const SnackBar(content: Text('You are online'));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
               noInternet: const Text('No internet'),
               onNoInternet: () {
                 //Do Something
-                developer.log('Omg');
+                var snackBar = const SnackBar(content: Text('You are offline'));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
+            ),
+            CheckInternet(
+              hasInternet: const Text('Has internet 2'),
+              onHasInternet: () {
+                //Do Something
+                var snackBar =
+                    const SnackBar(content: Text('You are online 2'));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
+              noInternet: const Text('No internet 2'),
+              onNoInternet: () {
+                //Do Something
+                var snackBar = const SnackBar(content: Text('You are offline'));
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+class SecondPage extends StatefulWidget {
+  const SecondPage({super.key});
+
+  @override
+  State<SecondPage> createState() => _SecondPageState();
+}
+
+class _SecondPageState extends State<SecondPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold();
   }
 }

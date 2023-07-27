@@ -7,11 +7,13 @@ import 'package:flutter/services.dart';
 class CheckInternet extends StatefulWidget {
   final Widget? noInternet;
   final Widget hasInternet;
+  final bool runOnStart;
   final void Function()? onHasInternet;
   final void Function()? onNoInternet;
   const CheckInternet(
       {super.key,
       this.noInternet,
+      this.runOnStart = false,
       required this.hasInternet,
       this.onHasInternet,
       this.onNoInternet});
@@ -22,6 +24,7 @@ class CheckInternet extends StatefulWidget {
 
 class _CheckInternetState extends State<CheckInternet> {
   int _initConnection = 0;
+  late bool runOnStart;
   ConnectivityResult _connectionStatus = ConnectivityResult.none;
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
@@ -29,6 +32,7 @@ class _CheckInternetState extends State<CheckInternet> {
   void initState() {
     super.initState();
     initConnectivity();
+    runOnStart = widget.runOnStart;
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
@@ -58,29 +62,25 @@ class _CheckInternetState extends State<CheckInternet> {
     setState(() {
       _connectionStatus = result;
     });
+    if (_initConnection == 0) {
+      _initConnection++;
+      return;
+    }
     if (_connectionStatus == ConnectivityResult.none) {
-      if (_initConnection == 0) {
-        _initConnection++;
-        return;
-      }
       if (widget.onNoInternet != null) {
+        if (runOnStart == false) {
+          setState(() => runOnStart = true);
+          return;
+        }
         widget.onNoInternet!();
       }
-    } else if (_connectionStatus == ConnectivityResult.wifi) {
-      if (_initConnection == 0) {
-        _initConnection++;
-        return;
-      }
+    } else {
       if (widget.onHasInternet != null) {
+        if (runOnStart == false) {
+          setState(() => runOnStart = true);
+          return;
+        }
         widget.onHasInternet!();
-      }
-    } else if (_connectionStatus == ConnectivityResult.mobile) {
-      if (_initConnection == 0) {
-        _initConnection++;
-        return;
-      }
-      if (widget.onHasInternet != null) {
-        widget.onHasInternet;
       }
     }
   }
