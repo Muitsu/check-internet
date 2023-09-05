@@ -1,4 +1,4 @@
-import 'package:check_internet/check_internet.dart';
+import 'package:check_internet/connectivity_wrapper.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -43,41 +43,44 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const ConnectivityService(
+                hasInternet: Text('Ada intermet'),
+                noInternet: Text('Takda internet')),
             ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (_) => const SecondPage()));
                 },
                 child: const Text('Next Page')),
-            CheckInternet(
-              hasInternet: const Text('Has internet'),
-              onHasInternet: () {
-                //Do Something
-                var snackBar = const SnackBar(content: Text('You are online'));
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              },
-              noInternet: const Text('No internet'),
-              onNoInternet: () {
-                //Do Something
-                var snackBar = const SnackBar(content: Text('You are offline'));
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              },
-            ),
-            CheckInternet(
-              hasInternet: const Text('Has internet 2'),
-              onHasInternet: () {
-                //Do Something
-                var snackBar =
-                    const SnackBar(content: Text('You are online 2'));
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              },
-              noInternet: const Text('No internet 2'),
-              onNoInternet: () {
-                //Do Something
-                var snackBar = const SnackBar(content: Text('You are offline'));
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              },
-            ),
+            // CheckInternet(
+            //   hasInternet: const Text('Has internet'),
+            //   onHasInternet: () {
+            //     //Do Something
+            //     var snackBar = const SnackBar(content: Text('You are online'));
+            //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            //   },
+            //   noInternet: const Text('No internet'),
+            //   onNoInternet: () {
+            //     //Do Something
+            //     var snackBar = const SnackBar(content: Text('You are offline'));
+            //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            //   },
+            // ),
+            // CheckInternet(
+            //   hasInternet: const Text('Has internet 2'),
+            //   onHasInternet: () {
+            //     //Do Something
+            //     var snackBar =
+            //         const SnackBar(content: Text('You are online 2'));
+            //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            //   },
+            //   noInternet: const Text('No internet 2'),
+            //   onNoInternet: () {
+            //     //Do Something
+            //     var snackBar = const SnackBar(content: Text('You are offline'));
+            //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            //   },
+            // ),
           ],
         ),
       ),
